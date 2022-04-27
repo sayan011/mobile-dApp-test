@@ -1,26 +1,34 @@
-//SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.0;
+//SPDX-License-Identifier: MIT
 
-import "hardhat/console.sol";
+pragma solidity 0.8.9;
 
-contract Donate{
-    uint totalDonations; 
-    address payable owner; 
-  
-    
-    constructor() {
-      owner = payable(msg.sender); 
+
+
+contract Donation is Ownable {
+    uint256 totalDonations;
+    event Donated(address indexed _us, uint256 _amount);
+    event MoneyReceived(address indexed _from, uint256 _amount);
+
+    function isOwner() internal view returns (bool) {
+        return owner() == msg.sender;
     }
-  
-    //public function to make donate
-    function donate() public payable {
-      (bool success,) = owner.call{value: msg.value}("");
-      require(success, "Failed to send money");
+
+    function withdrawMoney(address payable _to, uint256 _amount)
+        public
+        onlyOwner
+    {
+        _to.transfer(_amount);
     }
-  
-    // public function to return total of donations
-    function getTotalDonations() view public returns(uint) {
-      return totalDonations;
+
+    function donate(address payable _to, uint256 _amount) public payable {
+        _to.transfer(_amount);
     }
-  
+
+    function getTotalDonations() public view returns (uint256) {
+        return totalDonations;
+    }
+
+    receive() external payable {
+        emit MoneyReceived(msg.sender, msg.value);
+    }
 }
