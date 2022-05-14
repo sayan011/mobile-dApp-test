@@ -28,7 +28,7 @@ contract Donation is Ownable {
         return totalDonations;
     }
 
-    receive() external payable {
+    receive() external payable  {
         emit MoneyReceived(msg.sender, msg.value);
     }
 }
