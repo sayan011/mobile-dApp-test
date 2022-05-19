@@ -8,6 +8,12 @@ contract Donation is Ownable {
     uint256 totalDonations;
     event Donated(address indexed _us, uint256 _amount);
     event MoneyReceived(address indexed _from, uint256 _amount);
+    struct Donor{
+        string public name;
+        address donorAddress;
+        uint public totalDonation
+        
+    }
 
     function isOwner() internal view returns (bool) {
         return owner() == msg.sender;
