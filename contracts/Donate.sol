@@ -5,6 +5,7 @@ pragma solidity 0.8.9;
 
 
 contract Donation is Ownable {
+    uint myDonations;
     uint256 totalDonations;
     event Donated(address indexed _us, uint256 _amount);
     event MoneyReceived(address indexed _from, uint256 _amount);
